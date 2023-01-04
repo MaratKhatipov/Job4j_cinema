@@ -1,10 +1,10 @@
-package ru.job4j.job4j_cinema.repository;
+package ru.job4j.cinema.repository;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.job4j_cinema.model.Session;
+import ru.job4j.cinema.model.Session;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,13 +17,13 @@ import java.util.List;
 public class SessionRepository {
     private static final Logger LOG_SESSION = LoggerFactory.getLogger(SessionRepository.class.getName());
 
-    private BasicDataSource pool;
+    private final BasicDataSource pool;
 
     private static final String FIND_ALL = "select * from session";
 
     private static final String INSERT = "insert into session(name, photo) values (?, ?)";
 
-    private static final String FIND_BY_ID = "select from session where id = ?";
+    private static final String FIND_BY_ID = "select * from session where id = ?";
 
     private static final String UPDATE = """
                                          update session
@@ -74,22 +74,24 @@ public class SessionRepository {
     }
 
     public Session findById(int id) {
+        Session session = new Session();
         try (Connection cn = pool.getConnection();
         PreparedStatement ps = cn.prepareStatement(FIND_BY_ID)) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Session(
+                    session = new Session(
                             it.getInt("id"),
                             it.getString("name"),
                             it.getBytes("photo")
                     );
+                    return session;
                 }
             }
         } catch (SQLException e) {
             LOG_SESSION.error("find by id, SQLException", e);
         }
-        return null;
+        return session;
     }
 
     public void update(Session session) {

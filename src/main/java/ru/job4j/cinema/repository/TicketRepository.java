@@ -1,10 +1,10 @@
-package ru.job4j.job4j_cinema.repository;
+package ru.job4j.cinema.repository;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.job4j_cinema.model.Ticket;
+import ru.job4j.cinema.model.Ticket;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.sql.Connection;
@@ -25,7 +25,7 @@ public class TicketRepository {
 
     private static final String INSERT = "INSERT INTO ticket(session_id, pos_row, cell, user_id) VALUES (?, ?, ?, ?)";
 
-    private static final String FIND_BY_ID = "SELECT FROM ticket WHERE id = ?";
+    private static final String FIND_BY_ID = "SELECT * FROM ticket WHERE id = ?";
 
 
     private static final String FIND = "SELECT FROM ticket WHERE session_id = ? and pos_row = ?";
@@ -41,7 +41,7 @@ public class TicketRepository {
             ps.setInt(1, ticket.getSessionId());
             ps.setInt(2, ticket.getPosRow());
             ps.setInt(3, ticket.getCell());
-            ps.setInt(4, ticket.getUser_id());
+            ps.setInt(4, ticket.getUserId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -54,12 +54,12 @@ public class TicketRepository {
         }
         return result;
     }
-    public List<Ticket> findSessionAndRow(int session_id, int pos_row) {
-        List<Ticket> result = new ArrayList<Ticket>();
+    public List<Ticket> findSessionAndRow(int sessionId, int posRow) {
+        List<Ticket> result = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(FIND)) {
-            ps.setInt(1, session_id);
-            ps.setInt(2, pos_row);
+            ps.setInt(1, sessionId);
+            ps.setInt(2, posRow);
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     result.add(new Ticket(
@@ -69,7 +69,7 @@ public class TicketRepository {
                 }
             }
         } catch (SQLException e) {
-            LOG_TICKET_STORE.error("findSessionAndRowt, SQLException", e);
+            LOG_TICKET_STORE.error("findSessionAndRow, SQLException", e);
         }
         return result;
     }

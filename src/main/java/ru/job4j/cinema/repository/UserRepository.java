@@ -1,10 +1,10 @@
-package ru.job4j.job4j_cinema.repository;
+package ru.job4j.cinema.repository;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.job4j_cinema.model.User;
+import ru.job4j.cinema.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,8 +31,8 @@ public class UserRepository {
     private static final String FIND_BY_ID = "SELECT FROM users WHERE id = ?";
 
     private static final String FIND_BY_EMAIL_PWD = """
-                                                    SELECT id, username, email, phone, password 
-                                                    FROM users 
+                                                    SELECT id, username, email, phone, password
+                                                    FROM users
                                                     WHERE email = ? and password = ?
                                                     """;
 
@@ -51,7 +51,7 @@ public class UserRepository {
                 }
             }
         } catch (SQLException e) {
-            LOG_U_DB_STORE.error("Exception in findAll", e);
+            LOG_U_DB_STORE.error("UserRepository ошибка поиска всех пользователей", e);
         }
         return users;
     }
@@ -72,7 +72,7 @@ public class UserRepository {
                 result = Optional.of(user);
             }
         } catch (SQLException e) {
-            LOG_U_DB_STORE.error("add, SQLException", e);
+            LOG_U_DB_STORE.error("UserRepository ошибка добавления пользователя, SQLException", e);
         }
         return result;
     }
@@ -85,7 +85,7 @@ public class UserRepository {
             ps.setInt(3, user.getId());
             ps.execute();
         } catch (SQLException e) {
-            LOG_U_DB_STORE.error("SQLException in update", e);
+            LOG_U_DB_STORE.error("UserRepository ошибка обновления пользователя", e);
         }
     }
 
@@ -99,7 +99,7 @@ public class UserRepository {
                 user = initUser(it);
             }
         } catch (SQLException e) {
-            LOG_U_DB_STORE.error("SQLException in findById", e);
+            LOG_U_DB_STORE.error("UserRepository ошибка поиска пользователя по ID", e);
         }
         return user;
     }
@@ -116,7 +116,7 @@ public class UserRepository {
                 }
             }
         } catch (SQLException e) {
-            LOG_U_DB_STORE.error("SQLException in findByEmailAndPwd", e);
+            LOG_U_DB_STORE.error("UserRepository ошибка поиска пользователя по email, password", e);
         }
         return result;
     }
