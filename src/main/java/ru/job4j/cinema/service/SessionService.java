@@ -3,7 +3,7 @@ package ru.job4j.cinema.service;
 import ru.job4j.cinema.model.Session;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 public interface SessionService {
     Collection<Session> findAll();
@@ -13,4 +13,8 @@ public interface SessionService {
     void save(Session session);
 
     void update(Session session);
+
+    public List<Integer> getRowNumbers();
+
+    public List<Integer> getCellNumbers();
 }
