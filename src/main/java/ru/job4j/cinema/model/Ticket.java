@@ -1,21 +1,21 @@
-package ru.job4j.job4j_cinema.model;
+package ru.job4j.cinema.model;
 
 import java.util.Objects;
 
 public class Ticket {
     private int id;
     private int sessionId;
-    private int user_id;
+    private int userId;
     private int posRow;
     private int cell;
 
     public Ticket() {
     }
 
-    public Ticket(int id, int sessionId, int user_id, int posRow, int cell) {
+    public Ticket(int id, int sessionId, int userId, int posRow, int cell) {
         this.id = id;
         this.sessionId = sessionId;
-        this.user_id = user_id;
+        this.userId = userId;
         this.posRow = posRow;
         this.cell = cell;
     }
@@ -36,12 +36,12 @@ public class Ticket {
         this.sessionId = sessionId;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getPosRow() {
@@ -63,8 +63,12 @@ public class Ticket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Ticket ticket = (Ticket) o;
         return id == ticket.id;
     }
@@ -79,7 +83,7 @@ public class Ticket {
         return "Ticket{"
                + "id=" + id
                + ", sessionId=" + sessionId
-               + ", user_id=" + user_id
+               + ", user_id=" + userId
                + ", posRow=" + posRow
                + ", cell=" + cell
                + '}';

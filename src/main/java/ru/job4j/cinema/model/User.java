@@ -1,4 +1,4 @@
-package ru.job4j.job4j_cinema.model;
+package ru.job4j.cinema.model;
 
 import java.util.Objects;
 
@@ -74,8 +74,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return id == user.id;
     }
