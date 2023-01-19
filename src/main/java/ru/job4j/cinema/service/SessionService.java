@@ -14,7 +14,9 @@ public interface SessionService {
 
     void update(Session session);
 
-    public List<Integer> getRowNumbers();
+    List<Integer> getRowNumbers();
 
-    public List<Integer> getCellNumbers();
+    List<Integer> getCellNumbers();
+
+    List<Integer> getFreeCells(int sessionId, int posRow);
 }
