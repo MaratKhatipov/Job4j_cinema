@@ -62,10 +62,7 @@ public class TicketRepository {
             ps.setInt(2, posRow);
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    result.add(new Ticket(
-                            it.getInt("id"),
-                            it.getInt("session_id"),
-                            it.getInt("user_id"), it.getInt("pos_row"), it.getInt("cell")));
+                    result.add(getTicket(it));
                 }
             }
         } catch (SQLException e) {
@@ -74,5 +71,12 @@ public class TicketRepository {
         return result;
     }
 
-
+    private Ticket getTicket(ResultSet it) throws SQLException {
+        return new Ticket(
+                it.getInt("id"),
+                it.getInt("session_id"),
+                it.getInt("user_id"),
+                it.getInt("pos_row"),
+                it.getInt("cell"));
+    }
 }
