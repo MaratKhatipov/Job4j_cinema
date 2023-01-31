@@ -21,11 +21,7 @@ public class TicketRepository {
     private static final Logger LOG_TICKET_STORE = LoggerFactory.getLogger(TicketRepository.class.getName());
     private final BasicDataSource pool;
 
-    private static final String SELECT = "SELECT * FROM ticket";
-
     private static final String INSERT = "INSERT INTO ticket(session_id, pos_row, cell, user_id) VALUES (?, ?, ?, ?)";
-
-    private static final String FIND_BY_ID = "SELECT * FROM ticket WHERE id = ?";
 
 
     private static final String FIND = "SELECT FROM ticket WHERE session_id = ? and pos_row = ?";
@@ -39,7 +35,7 @@ public class TicketRepository {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, ticket.getSessionId());
-            ps.setInt(2, ticket.getPosRow());
+            ps.setInt(2, ticket.getRow());
             ps.setInt(3, ticket.getCell());
             ps.setInt(4, ticket.getUserId());
             ps.execute();
