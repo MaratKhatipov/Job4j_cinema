@@ -67,7 +67,7 @@ public class UserRepository {
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
-                    user.setId(1);
+                    user.setId(id.getInt(1));
                 }
                 result = Optional.of(user);
             }
