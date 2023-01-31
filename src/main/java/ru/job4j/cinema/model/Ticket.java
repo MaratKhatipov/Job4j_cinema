@@ -6,17 +6,17 @@ public class Ticket {
     private int id;
     private int sessionId;
     private int userId;
-    private int posRow;
+    private int row;
     private int cell;
 
     public Ticket() {
     }
 
-    public Ticket(int id, int sessionId, int userId, int posRow, int cell) {
+    public Ticket(int id, int sessionId, int userId, int row, int cell) {
         this.id = id;
         this.sessionId = sessionId;
         this.userId = userId;
-        this.posRow = posRow;
+        this.row = row;
         this.cell = cell;
     }
 
@@ -44,12 +44,12 @@ public class Ticket {
         this.userId = userId;
     }
 
-    public int getPosRow() {
-        return posRow;
+    public int getRow() {
+        return row;
     }
 
-    public void setPosRow(int posRow) {
-        this.posRow = posRow;
+    public void setRow(int row) {
+        this.row = row;
     }
 
     public int getCell() {
@@ -84,7 +84,7 @@ public class Ticket {
                + "id=" + id
                + ", sessionId=" + sessionId
                + ", user_id=" + userId
-               + ", posRow=" + posRow
+               + ", posRow=" + row
                + ", cell=" + cell
                + '}';
     }
