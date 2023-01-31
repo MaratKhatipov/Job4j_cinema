@@ -63,25 +63,25 @@ public class SessionController {
     @GetMapping("formChoiceRow/{sessionId}")
     public String choiceRow(Model model, HttpSession httpSession,
                             @PathVariable ("sessionId") int id) {
-        HttpSessionGet.getHttpSession(model, httpSession);
-        Ticket ticket = new Ticket();
+        Ticket sessionTicket = new Ticket();
         Session session = sessionService.findById(id);
-        ticket.setSessionId(id);
-        httpSession.setAttribute("ticket", ticket);
+        sessionTicket.setSessionId(id);
+        httpSession.setAttribute("ticket", sessionTicket);
         model.addAttribute("session", session);
         model.addAttribute("rows", sessionService.getRowNumbers());
+        HttpSessionGet.getHttpSession(model, httpSession);
         return "/session/formChoiceRow";
     }
 
     @GetMapping("formChoiceCell")
         public String choiceCell(Model model, HttpSession httpSession,
                                  @ModelAttribute("ticket") Ticket ticket) {
-        HttpSessionGet.getHttpSession(model, httpSession);
         Ticket ticketSession = (Ticket) httpSession.getAttribute("ticket");
         model.addAttribute("freeCells",
                 sessionService.getFreeCells(ticketSession.getSessionId(),
-                ticket.getPosRow()));
-        ticketSession.setPosRow(ticket.getPosRow());
+                ticket.getRow()));
+        ticketSession.setRow(ticket.getRow());
+        HttpSessionGet.getHttpSession(model, httpSession);
         return "/session/choiceCell";
         }
 }
