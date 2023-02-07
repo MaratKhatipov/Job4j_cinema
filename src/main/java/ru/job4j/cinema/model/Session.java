@@ -11,6 +11,11 @@ public class Session {
     public Session() {
     }
 
+    public Session(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Session(int id, String name, byte[] photo) {
         this.id = id;
         this.name = name;
@@ -39,5 +44,13 @@ public class Session {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        return "Session{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", photo=" + Arrays.toString(photo) + '}';
     }
 }

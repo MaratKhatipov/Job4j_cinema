@@ -41,11 +41,6 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void update(Session session) {
-        store.update(session);
-    }
-
-    @Override
     public List<Integer> getRowNumbers() {
         return new ArrayList<>(ROW_NUMBERS);
     }

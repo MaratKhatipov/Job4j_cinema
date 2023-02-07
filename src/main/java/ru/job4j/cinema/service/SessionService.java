@@ -12,8 +12,6 @@ public interface SessionService {
 
     void save(Session session);
 
-    void update(Session session);
-
     List<Integer> getRowNumbers();
 
     List<Integer> getCellNumbers();

@@ -10,8 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,16 +17,7 @@ public class UserRepository {
     private static final Logger LOG_U_DB_STORE = LoggerFactory.getLogger(UserRepository.class.getName());
     private final BasicDataSource pool;
 
-    private static final String SELECT = "SELECT * FROM users";
-
     private static final String INSERT = "INSERT INTO users(username, email, phone, password) VALUES (?, ?, ?, ?)";
-
-    private static final String UPDATE = """
-                                         UPDATE users
-                                         SET email = ?, password = ?
-                                         WHERE id = ?
-                                         """;
-    private static final String FIND_BY_ID = "SELECT FROM users WHERE id = ?";
 
     private static final String FIND_BY_EMAIL_PWD = """
                                                     SELECT id, username, email, phone, password
@@ -38,22 +27,6 @@ public class UserRepository {
 
     public UserRepository(BasicDataSource pool) {
         this.pool = pool;
-    }
-
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(SELECT)) {
-            try (ResultSet it = ps.executeQuery()) {
-                while (it.next()) {
-                    User user = initUser(it);
-                    users.add(user);
-                }
-            }
-        } catch (SQLException e) {
-            LOG_U_DB_STORE.error("UserRepository ошибка поиска всех пользователей", e);
-        }
-        return users;
     }
 
     public Optional<User> add(User user) {
@@ -75,33 +48,6 @@ public class UserRepository {
             LOG_U_DB_STORE.error("UserRepository ошибка добавления пользователя, SQLException", e);
         }
         return result;
-    }
-
-    public void update(User user) {
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(UPDATE)) {
-            ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPassword());
-            ps.setInt(3, user.getId());
-            ps.execute();
-        } catch (SQLException e) {
-            LOG_U_DB_STORE.error("UserRepository ошибка обновления пользователя", e);
-        }
-    }
-
-    public User findById(int id) {
-        User user = null;
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(FIND_BY_ID)) {
-            ps.setInt(1, id);
-            ResultSet it = ps.executeQuery();
-            if (it.next()) {
-                user = initUser(it);
-            }
-        } catch (SQLException e) {
-            LOG_U_DB_STORE.error("UserRepository ошибка поиска пользователя по ID", e);
-        }
-        return user;
     }
 
     public Optional<User> findByEmailAndPwd(String email, String password) {
