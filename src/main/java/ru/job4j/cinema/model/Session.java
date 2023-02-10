@@ -47,6 +47,25 @@ public class Session {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Session session = (Session) o;
+        return id == session.id && Objects.equals(name, session.name) && Arrays.equals(photo, session.photo);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, name);
+        result = 31 * result + Arrays.hashCode(photo);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Session{"
                 + "id=" + id
