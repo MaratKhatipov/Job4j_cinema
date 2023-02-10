@@ -25,11 +25,7 @@ public class SessionRepository {
 
     private static final String FIND_BY_ID = "select * from session where id = ?";
 
-    private static final String UPDATE = """
-                                         update session
-                                         set name = ?, photo = ?
-                                         where id = ?
-                                         """;
+    private final static String DELETE = "DELETE FROM session";
 
     public SessionRepository(BasicDataSource pool) {
         this.pool = pool;
@@ -62,9 +58,9 @@ public class SessionRepository {
             ps.setString(1, session.getName());
             ps.setBytes(2, session.getPhoto());
             ps.execute();
-            try (ResultSet id = ps.getGeneratedKeys()) {
-                if (id.next()) {
-                    session.setId(1);
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    session.setId(rs.getInt("id"));
                 }
             }
         } catch (SQLException e) {
@@ -85,7 +81,6 @@ public class SessionRepository {
                             it.getString("name"),
                             it.getBytes("photo")
                     );
-                    return session;
                 }
             }
         } catch (SQLException e) {
@@ -94,16 +89,13 @@ public class SessionRepository {
         return session;
     }
 
-    public void update(Session session) {
+    public void reset() {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement(UPDATE)) {
-            ps.setString(1, session.getName());
-            ps.setBytes(2, session.getPhoto());
-            ps.setInt(3, session.getId());
+             PreparedStatement ps =  cn.prepareStatement(DELETE)
+        ) {
             ps.execute();
-            System.out.println(session);
-        } catch (SQLException e) {
-            LOG_SESSION.error("update, SQL Exception", e);
+        } catch (Exception e) {
+            LOG_SESSION.error("Error:", e);
         }
     }
 }
