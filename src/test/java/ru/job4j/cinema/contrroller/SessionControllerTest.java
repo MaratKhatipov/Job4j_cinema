@@ -43,6 +43,7 @@ class SessionControllerTest {
 
         String page = sessionController.addSession(model, httpSession);
         System.out.println(page);
+        verify(model).addAttribute("session", new Session(0, "session name", new byte[0]));
         assertEquals(page, "session/addSession");
     }
 
