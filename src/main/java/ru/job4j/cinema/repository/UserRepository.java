@@ -24,6 +24,7 @@ public class UserRepository {
                                                     FROM users
                                                     WHERE email = ? and password = ?
                                                     """;
+    private final static String DELETE = "DELETE FROM users";
 
     public UserRepository(BasicDataSource pool) {
         this.pool = pool;
@@ -77,4 +78,14 @@ public class UserRepository {
 
         );
     }
+    public void reset() {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(DELETE)
+        ) {
+            ps.execute();
+        } catch (Exception e) {
+            LOG_U_DB_STORE.error("Error:", e);
+        }
+    }
+
 }
