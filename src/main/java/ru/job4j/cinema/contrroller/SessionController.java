@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
+import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.SessionService;
 import ru.job4j.cinema.util.HttpSessionGet;
 
@@ -81,7 +82,9 @@ public class SessionController {
                 sessionService.getFreeCells(ticketSession.getSessionId(),
                 ticket.getRow()));
         ticketSession.setRow(ticket.getRow());
+        User user = (User) httpSession.getAttribute("user");
         HttpSessionGet.getHttpSession(model, httpSession);
+        model.addAttribute("user", user);
         return "/session/choiceCell";
         }
 }
