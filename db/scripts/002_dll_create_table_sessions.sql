@@ -1,4 +1,4 @@
-create table session
+create table sessions
 (
     id    serial primary key,
     name  text,

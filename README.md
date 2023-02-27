@@ -67,3 +67,6 @@ java -jar target/job4j_cinema-1.0.jar
 
 <a href="https://ibb.co/d48fJ8K"><img src="https://i.ibb.co/Df01g0K/image.png" alt="image" border="0"></a>
 
+## FEEDBACK
+почта для обратной связи mmmarat86@gmail.com <br>
+телега https://t.me/KhatipovMarat
